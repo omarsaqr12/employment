@@ -27,7 +27,7 @@ options.add_experimental_option(
     "prefs", {"profile.managed_default_content_settings.images": 2}
 )
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-driver.get("https://wuzzuf.net/jobs/p/MLFshwbLgZbJ-Technical-Director-DAF-Holding-Cairo-Egypt?o=67&l=bp&t=bj&bpv=np&a=IT-Software-Development-Jobs-in-Egypt")
+driver.get("https://wuzzuf.net/jobs/p/KjatbbB9HAee-Partner-Development-Manager-%E2%80%93-ISV-Recruit-KlayyTech-for-Digital-Transformation-Giza-Egypt?o=20&l=bp&t=bj&bpv=np&a=IT-Jobs-in-Egypt")
 soup = BeautifulSoup(driver.page_source,features="lxml")
 #the following 4 functions are responsible for experience, career level, education level, and salary
 
@@ -70,9 +70,41 @@ def get_salary(soup):
          print(init_string)
          return init_string
     
+def postdate(soup):
+    Complete_area = soup.select("strong.css-9geu3q:nth-child(4)")[0].next_sibling.text.split(' ')
+    Complete_area = [Complete_area[1],Complete_area[2]]
+    print(Complete_area)
+    return Complete_area
+def numberofapplicants(soup):
+    Complete_area = soup.select("strong.css-9geu3q:nth-child(4)")[0].next_sibling.next_sibling.text.split(' ')
+    applicants=Complete_area[0].replace("Applicants","")
+    vaccancies=Complete_area[1]
+    vaccancies=vaccancies[-1]
+    if(vaccancies=="-"):
+         vaccancies=Complete_area[2]
+    print(vaccancies)
+    print(applicants)
+    print(Complete_area)
+def locationofcompandcompname(soup):
+    Complete_area = soup.select("strong.css-9geu3q:nth-child(4)")[0].text.split(' ')
+    companyname=""
+    companylocation=""
+    i=0
+    if Complete_area[0]=="Confidential":
+         companyname=None
+    else:
+         while Complete_area[i][0]!='-':
+              companyname+=Complete_area[i]+" "
+              i=i+1
+    while i< len(Complete_area):
+         companylocation+=Complete_area[i].replace("-\xa0","")
+         i=i+1
+    print(companylocation)
+    print(companyname)
 
-
-get_experience2(soup)
-get_career(soup)
-get_education(soup)
-get_salary(soup)
+# get_experience2(soup)
+# get_career(soup)
+# get_education(soup)
+# get_salary(soup)
+# postdate(soup)
+locationofcompandcompname(soup)
