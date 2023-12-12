@@ -27,7 +27,7 @@ options.add_experimental_option(
     "prefs", {"profile.managed_default_content_settings.images": 2}
 )
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-driver.get("https://wuzzuf.net/jobs/p/KjatbbB9HAee-Partner-Development-Manager-%E2%80%93-ISV-Recruit-KlayyTech-for-Digital-Transformation-Giza-Egypt?o=20&l=bp&t=bj&bpv=np&a=IT-Jobs-in-Egypt")
+driver.get("https://wuzzuf.net/jobs/careers/KIT-consulting-Egypt-12026")
 soup = BeautifulSoup(driver.page_source,features="lxml")
 #the following 4 functions are responsible for experience, career level, education level, and salary
 
@@ -102,9 +102,37 @@ def locationofcompandcompname(soup):
     print(companylocation)
     print(companyname)
 
+# now scrap from the company page 
+def companywebisteandsocialmedialinks(soup):
+     links=[]
+     s=soup.select("html body div#app div div div.css-1cvvhv div.css-ku8yfm div.css-12e2e2p div.css-aqnjlk div.css-1517rho a.css-cttont")[0].get("href")
+     links.append(s)
+    #  print(soup.select("html body div#app div div div.css-1cvvhv div.css-ku8yfm div.css-12e2e2p div.css-aqnjlk div.css-18rpd7u"))
+     for social in soup.select("html body div#app div div div.css-1cvvhv div.css-ku8yfm div.css-12e2e2p div.css-aqnjlk div.css-18rpd7u a"):
+          links.append(social.get("href"))
+     print(links)
+def companylocation_industries_founded_compsize(soup):
+     data=[]
+     data.append(soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 div.css-1mjtpgs span.css-1xhj18k span.css-16heon9")[0].text)
+     data.append(soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 div.css-1mjtpgs span.css-1xhj18k span.css-6whuzn")[0].text)
+     data.append(soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 div.css-1mjtpgs span.css-1xhj18k")[2].text)
+     data.append(soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 div.css-1mjtpgs span.css-1xhj18k")[3].text)
+     s=soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 p.css-1ceuc1v")[0].text
+     x=(s[-4:-1])
+     if x=="Mor":
+          driver.find_element(By.CSS_SELECTOR, '#profile-section > p > span').click()
+          soup2=BeautifulSoup(driver.page_source)
+          s=soup2.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 p.css-1ceuc1v")[0].text
+          data.append(s[0:-10])
+
+     else:
+          data.append(s)
+
+     print(data)
 # get_experience2(soup)
 # get_career(soup)
 # get_education(soup)
 # get_salary(soup)
 # postdate(soup)
-locationofcompandcompname(soup)
+# locationofcompandcompname(soup)
+# companylocation_industries_founded_compsize(soup)
