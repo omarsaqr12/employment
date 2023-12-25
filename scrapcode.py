@@ -17,6 +17,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import re
+complinks=[]
 # configure webdriver
 options = Options()
 options.add_argument("--headless")  # hide GUI
@@ -27,7 +28,7 @@ options.add_experimental_option(
     "prefs", {"profile.managed_default_content_settings.images": 2}
 )
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-driver.get("https://wuzzuf.net/jobs/p/hS5nz4CthTFG-Software-Developer-Misr-Elkheir-Foundation-Cairo-Egypt?o=2&l=bp&t=bj&bpv=np&a=IT-Software-Development-Jobs-in-Egypt")
+driver.get("https://wuzzuf.net/jobs/p/hS5nz4CthTFG-Software-Developer-Misr-Elkheir-Foundation-Cairo-Egypt?o=5&l=bp&t=bj&bpv=np&a=IT-Software-Development-Jobs-in-Egypt")
 soup = BeautifulSoup(driver.page_source,features="lxml")
 #the following 4 functions are responsible for experience, career level, education level, and salary
 
@@ -147,14 +148,22 @@ def getcompanylink(soup):
      else:
           link=soup.select(".css-p7pghv")[0].get("href")
           print(link)
+          return link
+def managecompany(soup,link):
+     if not(link in complinks):
+          complinks.insert(0,link)
+          companywebisteandsocialmedialinks(soup)
+          companylocation_industries_founded_compsize(soup)
 
-# get_experience2(soup)
-# get_career(soup)
-# get_education(soup)
-# get_salary(soup)
-# postdate(soup)
-# locationofcompandcompname(soup)
-# companylocation_industries_founded_compsize(soup)
-# JobDescandrequirments(soup)
-# getjobcategories(soup)
-getcompanylink(soup)
+def scrapjobpage(soup):
+     get_experience2(soup)
+     get_career(soup)
+     get_education(soup)
+     get_salary(soup)
+     postdate(soup)
+     numberofapplicants(soup)
+     link=getcompanylink(soup)
+     driver.get(link)
+     soup = BeautifulSoup(driver.page_source,features="lxml")
+     managecompany(soup,link)
+scrapjobpage(soup)

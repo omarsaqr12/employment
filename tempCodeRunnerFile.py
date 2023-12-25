@@ -1,1 +1,1 @@
-companylocation_industries_founded_compsize(soup)
+          # locationofcompandcompname(soup)
