@@ -27,7 +27,7 @@ options.add_experimental_option(
     "prefs", {"profile.managed_default_content_settings.images": 2}
 )
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-driver.get("https://wuzzuf.net/jobs/careers/KIT-consulting-Egypt-12026")
+driver.get("https://wuzzuf.net/jobs/p/hS5nz4CthTFG-Software-Developer-Misr-Elkheir-Foundation-Cairo-Egypt?o=2&l=bp&t=bj&bpv=np&a=IT-Software-Development-Jobs-in-Egypt")
 soup = BeautifulSoup(driver.page_source,features="lxml")
 #the following 4 functions are responsible for experience, career level, education level, and salary
 
@@ -101,7 +101,11 @@ def locationofcompandcompname(soup):
          i=i+1
     print(companylocation)
     print(companyname)
-
+def JobDescandrequirments(soup):
+     jobdescription=soup.select("html body div#app div main.css-44l6ak section.css-ghicub div.css-1uobp1k")[0].text
+     jobreq=soup.select("html body div#app div main.css-44l6ak section.css-ghicub div.css-1t5f0fr")[0].text
+     print(jobreq)
+     print(jobdescription)
 # now scrap from the company page 
 def companywebisteandsocialmedialinks(soup):
      links=[]
@@ -111,6 +115,7 @@ def companywebisteandsocialmedialinks(soup):
      for social in soup.select("html body div#app div div div.css-1cvvhv div.css-ku8yfm div.css-12e2e2p div.css-aqnjlk div.css-18rpd7u a"):
           links.append(social.get("href"))
      print(links)
+
 def companylocation_industries_founded_compsize(soup):
      data=[]
      data.append(soup.select("html body div#app div div.css-1i3nj6 div#profile-section.css-yujkym.es4ywkp0 div.css-1mjtpgs span.css-1xhj18k span.css-16heon9")[0].text)
@@ -129,6 +134,20 @@ def companylocation_industries_founded_compsize(soup):
           data.append(s)
 
      print(data)
+def getjobcategories(soup):
+     data=set()
+     s=soup.select(".css-s2o0yh")[0]
+     spans=s.find_all("span")
+     for w in spans:
+          data.add(w.text)
+     print(data)
+def getcompanylink(soup):
+     if soup.select(".css-p7pghv")==[]:
+          print([])
+     else:
+          link=soup.select(".css-p7pghv")[0].get("href")
+          print(link)
+
 # get_experience2(soup)
 # get_career(soup)
 # get_education(soup)
@@ -136,3 +155,6 @@ def companylocation_industries_founded_compsize(soup):
 # postdate(soup)
 # locationofcompandcompname(soup)
 # companylocation_industries_founded_compsize(soup)
+# JobDescandrequirments(soup)
+# getjobcategories(soup)
+getcompanylink(soup)
