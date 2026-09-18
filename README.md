@@ -1,6 +1,6 @@
 # Employment data-model and job-page parsing prototype
 
-An **unfinished coursework/prototype repository** exploring an employment-platform relational schema and extraction of fields from Wuzzuf job listings. It is not a deployed job board, a running database-backed application, or a validated current Wuzzuf scraper.
+An **unfinished prototype repository** exploring an employment-platform relational schema and extraction of fields from Wuzzuf job listings. It is not a deployed job board, a running database-backed application, or a validated current Wuzzuf scraper.
 
 ## What is here
 
