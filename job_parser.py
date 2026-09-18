@@ -37,6 +37,8 @@ def parse_experience(text: str | None) -> tuple[int | None, int | None, str | No
         return numbers[0], None, "more_than"
     if normalized.startswith("at least") or normalized.startswith("minimum"):
         return numbers[0], None, "at_least"
+    if len(numbers) == 1 and (re.search(r"\b\d+\s*\+", normalized) or "or more" in normalized):
+        return numbers[0], None, "at_least"
     if len(numbers) >= 2 and (" to " in normalized or "-" in normalized):
         return min(numbers[:2]), max(numbers[:2]), "range"
     if len(numbers) == 1:
